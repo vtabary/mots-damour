@@ -1,6 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 html,
 body {
   margin: 0;
   width: 100vw;
   height: 100vh;
+  @apply text-white;
+}
+
+a {
+  @apply border-spacing-2;
+  @apply border-b;
+  @apply border-white;
 }
