@@ -1,0 +1,39 @@
+:host {
+  display: contents;
+}
+
+.ui-video-container {
+  background-color: black;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  overflow: hidden;
+  align-items: center;
+}
+
+.ui-video {
+  min-width: 100vw;
+  min-height: 100vh;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+}
+
+// Effects
+
+.black-and-white {
+  filter: brightness(70%) contrast(150%) saturate(0%) brightness(150%);
+}
+
+.sepia {
+  filter: saturate(0%) sepia(100%) contrast(150%) saturate(150%);
+}
+
+.cold {
+  filter: hue-rotate(180deg) sepia(75%) contrast(150%) saturate(300%)
+    hue-rotate(180deg);
+}
+
+.tint-magenta {
+  filter: hue-rotate(-270deg) sepia(55%) contrast(150%) saturate(300%)
+    hue-rotate(270deg);
+}

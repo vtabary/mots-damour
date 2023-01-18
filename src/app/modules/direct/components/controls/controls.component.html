@@ -1,0 +1,14 @@
+<a routerLink="/direct/camera" target="_blank">Open camera</a>
+
+<form method="post" [formGroup]="form">
+  <fieldset>
+    <label for="filter">Visual filter:</label>
+    <select formControlName="filter" id="filter">
+      <option value="none">No filter</option>
+      <option value="sepia">Sepia</option>
+      <option value="black-and-white">Black and white</option>
+      <option value="cold">Cold</option>
+      <option value="tint-magenta">Teinte Magenta</option>
+    </select>
+  </fieldset>
+</form>
