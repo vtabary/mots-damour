@@ -1,6 +1,8 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
+  HostListener,
   OnDestroy,
   OnInit,
 } from '@angular/core';
@@ -11,6 +13,7 @@ import { IFilter } from '../../directives/cssfilter/cssfilter.directive';
 
 export type ICameraConf = {
   filter: IFilter;
+  simpleTint: string;
 };
 
 @Component({
@@ -27,19 +30,34 @@ export class ControlsComponent implements OnInit, OnDestroy {
       nonNullable: true,
       validators: Validators.required,
     }),
+    simpleTint: new FormControl<string>('', {
+      nonNullable: true,
+    }),
   });
+  public hiddenVideo = false;
 
   private onDestroy$ = new Subject<void>();
 
-  constructor(private localStorage: LocalStorageService<ICameraConf>) {}
+  constructor(
+    private localStorage: LocalStorageService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   public ngOnInit(): void {
-    this.localStorage
-      .observe(ControlsComponent.storageName)
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe((value) => {
-        console.log('ok controls', value);
-      });
+    this.form.setValue(
+      this.localStorage.get<ICameraConf>(
+        `${ControlsComponent.storageName}/config`
+      ) ??
+        ({
+          filter: 'none',
+          simpleTint: '',
+        } as ICameraConf)
+    );
+
+    this.hiddenVideo =
+      this.localStorage.get<boolean>(
+        `${ControlsComponent.storageName}/display`
+      ) ?? false;
 
     this.form.valueChanges
       .pipe(takeUntil(this.onDestroy$))
@@ -50,10 +68,26 @@ export class ControlsComponent implements OnInit, OnDestroy {
     this.onDestroy$.next(undefined);
   }
 
+  @HostListener('window:keydown', ['$event'])
+  public onSpace(event: KeyboardEvent) {
+    if (!(event.key == ' ' || event.code == 'Space' || event.keyCode == 32)) {
+      return;
+    }
+
+    this.hiddenVideo = !this.localStorage.get(
+      `${ControlsComponent.storageName}/display`
+    );
+    this.localStorage.set(
+      `${ControlsComponent.storageName}/display`,
+      this.hiddenVideo
+    );
+
+    this.cdr.detectChanges();
+  }
+
   private updateCamera(): void {
-    console.log('ok2');
     window.localStorage.setItem(
-      ControlsComponent.storageName,
+      `${ControlsComponent.storageName}/config`,
       JSON.stringify(this.form.value)
     );
   }

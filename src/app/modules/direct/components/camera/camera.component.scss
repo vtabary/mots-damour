@@ -9,6 +9,7 @@
   display: flex;
   overflow: hidden;
   align-items: center;
+  @apply opacity-100 ease-out duration-1000 transition-opacity;
 }
 
 .ui-video {
@@ -16,6 +17,12 @@
   min-height: 100vh;
   aspect-ratio: 16/9;
   object-fit: cover;
+}
+
+.ui-video-hidden {
+  // opacity: 0;
+  // transition: display;
+  @apply opacity-0;
 }
 
 // Effects

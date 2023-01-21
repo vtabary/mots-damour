@@ -1,16 +1,60 @@
-<a routerLink="/direct/camera" target="_blank" class="mb-8 inline-block"
-  >Open camera<visual-show-icon icon="external-link"></visual-show-icon
-></a>
-
 <form method="post" [formGroup]="form">
-  <fieldset>
-    <label for="filter">Visual filter:</label>
-    <select formControlName="filter" id="filter">
-      <option value="none">No filter</option>
-      <option value="sepia">Sepia</option>
-      <option value="black-and-white">Black and white</option>
-      <option value="cold">Cold</option>
-      <option value="tint-magenta">Teinte Magenta</option>
-    </select>
+  <fieldset class="m-4">
+    <legend class="mb-2 text-gray-400">Caméra</legend>
+    <div class="ml-4">
+      <div>
+        <a routerLink="/direct/camera" target="_blank" class="mb-8 inline-block"
+          >Ouvrir la caméra<visual-show-icon
+            icon="external-link"
+          ></visual-show-icon
+        ></a>
+      </div>
+      <div>
+        <span
+          class="text-green-900 font-bold"
+          *ngIf="!hiddenVideo; else hiddenVideoMessage"
+        >
+          La caméra est activée
+        </span>
+        <ng-template #hiddenVideoMessage>
+          <span class="text-red-900 font-bold">La caméra est désactivée</span>
+        </ng-template>
+        (inverser avec la barre espace)
+      </div>
+    </div>
+  </fieldset>
+  <fieldset class="m-4">
+    <legend class="mb-2 text-gray-400">Style visuel</legend>
+    <div class="ml-4">
+      <div class="mb-2">
+        <label
+          >Teinte simple:
+          <select
+            formControlName="simpleTint"
+            id="simpleTint"
+            class="text-black"
+          >
+            <option value="">Aucune teinte</option>
+            <option value="pink">Rose</option>
+            <option value="green">Vert</option>
+            <option value="blue">Bleu</option>
+            <option value="yellow">Jaune</option>
+            <option value="purple">Violet</option>
+          </select>
+        </label>
+      </div>
+      <div>
+        <label for="filter"
+          >Filtre visuel:
+          <select formControlName="filter" id="filter" class="text-black">
+            <option value="none">Aucun filtre</option>
+            <option value="sepia">Sepia</option>
+            <option value="black-and-white">Noir et blanc</option>
+            <option value="cold">Froid</option>
+            <option value="tint-magenta">Teinte Magenta</option>
+          </select>
+        </label>
+      </div>
+    </div>
   </fieldset>
 </form>

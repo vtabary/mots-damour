@@ -1,9 +1,13 @@
-<div class="ui-video-container">
-  <video
-    #video
-    id="video"
-    class="ui-video"
-    autoplay
-    [visualShowCSSFilter]="filter"
-  ></video>
+<div
+  #videoContainer
+  class="ui-video-container"
+  [ngClass]="{ 'ui-video-hidden': hideVideo }"
+  [visualShowCSSFilter]="filter"
+>
+  <video #video id="video" class="ui-video" autoplay></video>
+
+  <div
+    class="fixed top-0 left-0 h-full w-full opacity-20 bg-transparent z-10"
+    [style.backgroundColor]="simpleTint"
+  ></div>
 </div>

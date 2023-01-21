@@ -26,26 +26,51 @@ export class CameraComponent implements OnInit, AfterViewInit {
   @ViewChild('video')
   public video: ElementRef | null = null;
 
+  @ViewChild('videoContainer')
+  public videoContainer: ElementRef | null = null;
+
   public cameraStarted = false;
   public filter: IFilter = 'none';
+  public simpleTint = '';
+  public hideVideo = false;
 
   private onDestroy$ = new Subject<void>();
 
   constructor(
-    private localStorage: LocalStorageService<ICameraConf>,
+    private localStorage: LocalStorageService,
     private zone: NgZone,
     private cdr: ChangeDetectorRef
   ) {}
 
   public ngOnInit(): void {
     this.localStorage
-      .observe(CameraComponent.storageName)
+      .observe<ICameraConf>(`${CameraComponent.storageName}/config`)
       .pipe(
         takeUntil(this.onDestroy$),
-        startWith(this.localStorage.get(CameraComponent.storageName))
+        startWith(
+          this.localStorage.get<ICameraConf>(
+            `${CameraComponent.storageName}/config`
+          )
+        )
       )
       .subscribe((value) => {
         this.filter = value?.filter || 'none';
+        this.simpleTint = value?.simpleTint || '';
+        this.cdr.detectChanges();
+      });
+
+    this.localStorage
+      .observe<boolean>(`${CameraComponent.storageName}/display`)
+      .pipe(
+        takeUntil(this.onDestroy$),
+        startWith(
+          this.localStorage.get<boolean>(
+            `${CameraComponent.storageName}/display`
+          )
+        )
+      )
+      .subscribe((value) => {
+        this.hideVideo = value ?? false;
         this.cdr.detectChanges();
       });
   }
@@ -69,7 +94,7 @@ export class CameraComponent implements OnInit, AfterViewInit {
       this.video.nativeElement.play();
 
       this.zone.runOutsideAngular(() =>
-        createPanZoom(this.video?.nativeElement, {
+        createPanZoom(this.videoContainer?.nativeElement, {
           minZoom: 1,
           smoothScroll: false,
         })
