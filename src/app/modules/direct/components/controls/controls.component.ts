@@ -70,7 +70,11 @@ export class ControlsComponent implements OnInit, OnDestroy {
 
   @HostListener('window:keydown', ['$event'])
   public onSpace(event: KeyboardEvent) {
-    if (!(event.key == ' ' || event.code == 'Space' || event.keyCode == 32)) {
+    if (
+      !(event.key == ' ' || event.code == 'Space' || event.keyCode == 32) &&
+      !(event.key === 'PageDown' || event.code === 'PageDown') &&
+      !(event.key === 'PageUp' || event.code === 'PageUp')
+    ) {
       return;
     }
 

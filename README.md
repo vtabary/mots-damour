@@ -3,7 +3,7 @@
 ## Features
 
 - Direct camera display with visual filters
-- Can disable the camera display by pressing the space bar
+- Can disable the camera display by pressing the space bar, page up or page down (for remote control)
 - Pan and zoom on video
 
 ## TODO
